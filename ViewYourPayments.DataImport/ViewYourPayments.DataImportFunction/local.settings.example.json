@@ -1,0 +1,31 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "ConnectionStrings:ViewYourPaymentsDbContext": "",
+    "APPINSIGHTS_INSTRUMENTATIONKEY": "",
+    "APPLOGGINGAPPINSIGHTS_INSTRUMKEY": "",
+    "AzureFunctionsJobHost__functionTimeout": "09:00:00",
+    "AzureWebJobsDashboard": "UseDevelopmentStorage=true",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "DataImportSetting:Company": "",
+    "DataImportSetting:DataImportFromDate": "",
+    "DataImportSetting:DataImportToDate": "",
+    "DataImportSetting:DimensionCode": "",
+    "DataImportSetting:DimensionValues": "",
+    "DataImportSetting:NavApiBaseUrl": "",
+    "DataImportSetting:NavAPICompaniesSettings:0:CompanyName": "",
+    "DataImportSetting:NavAPICompaniesSettings:0:IncludeDimensionQuery": "",
+    "DataImportSetting:NavAPICompaniesSettings:1:CompanyName": "",
+    "DataImportSetting:NavAPICompaniesSettings:1:IncludeDimensionQuery": "",
+    "DataImportSetting:NavApiSubscriptionKey": "",
+    "DataImportSetting:NavApiVersionNumber": "",
+    "DataImportSetting:RetryCounter": 3,
+    "DataImportSetting:RetryGapDurationMilliseconds": 3000,
+    "DataImportSetting:RunAsOneTimeJobWithConfigDates": false,
+    "DataImportSetting:UseFinanceAPI": true,
+    "Environment": "local",
+    "FUNCTIONS_EXTENSION_VERSION": "~4",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "timerInterval": "0 15 12 * * *"
+  }
+}

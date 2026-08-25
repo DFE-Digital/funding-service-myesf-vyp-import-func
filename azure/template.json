@@ -1,0 +1,438 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "DataImportSettingNavAPICompaniesSettings0CompanyName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The DataImportSetting:NavAPICompaniesSettings:0:CompanyName from Release Variables"
+      }
+    },
+    "DataImportSettingNavAPICompaniesSettings0IncludeDimensionQuery": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The DataImportSetting:NavAPICompaniesSettings:0:IncludeDimensionQuery from Release Variables"
+      }
+    },
+    "DataImportSettingNavAPICompaniesSettings1CompanyName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The DataImportSetting:NavAPICompaniesSettings:1:CompanyName from Release Variables"
+      }
+    },
+    "DataImportSettingNavAPICompaniesSettings1IncludeDimensionQuery": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The DataImportSetting:NavAPICompaniesSettings:1:IncludeDimensionQuery from Release Variables"
+      }
+    },
+    "environmentTag": {
+      "type": "string"
+    },
+    "parentBusinessTag": {
+      "type": "string"
+    },
+    "portfolioTag": {
+      "type": "string"
+    },
+    "productTag": {
+      "type": "string"
+    },
+    "serviceLineTag": {
+      "type": "string"
+    },
+    "resourceEnvironmentName": {
+      "type": "String"
+    },
+    "serviceName": {
+      "type": "String"
+    },
+    "environmentName": {
+      "type": "String"
+    },
+    "environmentInstanceNumber": {
+      "type": "string",
+      "metadata": {
+        "description": "Short number for the environment. Used for the name of resources created."
+      }
+    },
+    "sharedAppServicePlanName": {
+      "type": "String"
+    },
+    "sharedAppInsightsName": {
+      "type": "String"
+    },
+    "appLoggingAppInsightsName": {
+      "type": "string"
+    },
+    "sharedSqlServerName": {
+      "type": "String"
+    },
+    "sharedResourceGroup": {
+      "type": "String"
+    },
+    "dataImportDatabaseSkuName": {
+      "defaultValue": "S0",
+      "type": "String"
+    },
+    "dataImportdatabaseTier": {
+      "defaultValue": "Standard",
+      "type": "String"
+    },
+    "sharedLogAnalyticsSubscriptionId": {
+      "defaultValue": "[subscription().subscriptionId]",
+      "type": "String"
+    },
+    "sharedLogAnalyticsResourceGroup": {
+      "defaultValue": "",
+      "type": "String"
+    },
+    "sharedLogAnalyticsWorkspaceName": {
+      "defaultValue": "",
+      "type": "String"
+    },
+    "sharedKeyVaultName": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "Name of the Shared KeyVault."
+      }
+    },
+    "timerInterval": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "Interval on which API should refresh"
+      }
+    },
+    "dataImportFromDate": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "DataImportSetting:DataImportFromDate from Release Variables"
+      }
+    },
+    "dataImportToDate": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "The DataImportSetting:DataImportToDate from Release Variables"
+      }
+    },
+    "navApiBaseUrl": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "The DataImportSetting:NavApiBaseUrl from Release Variables"
+      }
+    },
+    "navApiVersionNumber": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "The DataImportSetting:NavApiVersionNumber from Release Variables"
+      }
+    },
+    "runAsOneTimeJobWithConfigDates": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "The DataImportSetting:RunAsOneTimeJobWithConfigDates from Release Variables"
+      }
+    },
+    "DataImportSettingsCompany": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "The DataImportSetting:Company from Release Variables"
+      }
+    },
+    "DataImportSettingsDimensionCode": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "The DataImportSetting:DimensionCode from Release Variables"
+      }
+    },
+    "DataImportSettingsDimensionValues": {
+      "defaultValue": "",
+      "type": "String",
+      "metadata": {
+        "description": "The DataImportSetting:DimensionValues from Release Variables"
+      }
+    },
+    "FUNCTIONS_EXTENSION_VERSION": {
+      "type": "string",
+      "metadata": {
+        "description": "The FUNCTIONS_EXTENSION_VERSION for this particular environment eg t1dv"
+      }
+    },
+    "functionTimeout": {
+      "type": "string",
+      "metadata": {
+        "description": "Function timeout"
+      }
+    },
+    "faIpSecurityRestrictions": {
+      "defaultValue": [
+        {
+          "Name": "Function App Dent all Inbound",
+          "ipAddress": "0.0.0.0/0",
+          "Action": "Deny",
+          "Priority": "100"
+        }
+      ],
+      "type": "array",
+      "metadata": {
+        "description": "Function App IP Restrictions"
+      }
+    },
+    "retryCounter": {
+      "defaultValue": 3,
+      "type": "int",
+      "metadata": {
+        "description": "The DataImportSetting:RetryCounter from Release Variables"
+      }
+    },
+    "retryGapDurationMilliseconds": {
+      "defaultValue": 3000,
+      "type": "int",
+      "metadata": {
+        "description": "The DataImportSetting:RetryGapDurationMilliseconds from Release Variables"
+      }
+    },
+    "useFinanceAPI": {
+      "defaultValue": true,
+      "type": "bool",
+      "metadata": {
+        "description": "The DataImportSetting:UseFinanceAPI from Release Variables"
+      }
+    }
+  },
+  "variables": {
+    "deploymentUrlBase": "https://raw.githubusercontent.com/SkillsFundingAgency/funding-platform-building-blocks/resourceTags/templates/",
+    "dataImportFunctionAppName": "[concat(variables('resourceNamePrefix'), '-dataimport-fa-', parameters('environmentInstanceNumber'))]",
+    "resourceNamePrefix": "[toLower(concat(parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
+    "dataImportDatabaseName": "[concat(variables('resourceNamePrefix'),'-dataImport-db-', parameters('environmentInstanceNumber'))]",
+    "dataImportFunctionStorageAccountName": "[concat(parameters('resourceEnvironmentName'),parameters('serviceName'), 'fastrg', parameters('environmentInstanceNumber'))]",
+    "keyVaultName": "[concat(variables('resourceNamePrefix'), '-shared-kv-', parameters('environmentInstanceNumber'))]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "name": "DataImport_Storage",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('deploymentUrlBase'),'storage-account-arm.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "environmentTag": {
+            "value": "[parameters('environmentTag')]"
+          },
+          "parentBusinessTag": {
+            "value": "[parameters('parentBusinessTag')]"
+          },
+          "portfolioTag": {
+            "value": "[parameters('portfolioTag')]"
+          },
+          "productTag": {
+            "value": "[parameters('productTag')]"
+          },
+          "serviceLineTag": {
+            "value": "[parameters('serviceLineTag')]"
+          },
+          "storageAccountName": {
+            "value": "[variables('dataImportFunctionStorageAccountName')]"
+          },
+          "minimumTlsVersion": {
+            "value": "TLS1_2"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "name": "DataImport_Function_App_Deployment",
+      "dependsOn": [
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('deploymentUrlBase'),'function-app.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "environmentTag": {
+            "value": "[parameters('environmentTag')]"
+          },
+          "parentBusinessTag": {
+            "value": "[parameters('parentBusinessTag')]"
+          },
+          "portfolioTag": {
+            "value": "[parameters('portfolioTag')]"
+          },
+          "productTag": {
+            "value": "[parameters('productTag')]"
+          },
+          "serviceLineTag": {
+            "value": "[parameters('serviceLineTag')]"
+          },
+          "functionAppName": {
+            "value": "[variables('dataImportFunctionAppName')]"
+          },
+          "appServicePlanName": {
+            "value": "[parameters('sharedAppServicePlanName')]"
+          },
+          "appServicePlanResourceGroup": {
+            "value": "[parameters('sharedResourceGroup')]"
+          },
+          "functionAppConnectionStrings": {
+            "value": [
+              {
+                "name": "ViewYourPaymentsDbContext",
+                "connectionString": "[concat('@Microsoft.KeyVault(SecretUri=', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('sharedKeyVaultName'),'ViewYourPaymentsDbContext'),'2018-02-14').secretUriWithVersion, ')')]",
+                "type": "SQLAzure"
+              }
+            ]
+          },
+          "ipSecurityRestrictions": {
+            "value": "[parameters('faIpSecurityRestrictions')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/config",
+      "apiVersion": "2018-11-01",
+      "name": "[concat(variables('dataImportFunctionAppName'), '/appsettings')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'DataImport_Function_App_Deployment')]"
+      ],
+      "properties": {
+        "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('Microsoft.Insights/components', parameters('sharedAppInsightsName')), '2014-04-01').InstrumentationKey]",
+        "APPLOGGINGAPPINSIGHTS_INSTRUMKEY": "[reference(resourceId('Microsoft.Insights/components', parameters('appLoggingAppInsightsName')), '2014-04-01').InstrumentationKey]",
+        "ASPNETCORE_ENVIRONMENT": "[toUpper(parameters('environmentName'))]",
+        "AzureFunctionsJobHost__functionTimeout": "[parameters('functionTimeout')]",
+        "AzureWebJobsDashboard": "[concat('@Microsoft.KeyVault(SecretUri=', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('sharedKeyVaultName'),'AzureWebJobsDashboard'),'2018-02-14').secretUriWithVersion, ')')]",
+        "AzureWebJobsStorage": "[concat('@Microsoft.KeyVault(SecretUri=', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('sharedKeyVaultName'),'AzureWebJobsStorage'),'2018-02-14').secretUriWithVersion, ')')]",
+        "DataImportSetting:Company": "[parameters('DataImportSettingsCompany')]",
+        "DataImportSetting:DataImportFromDate": "[parameters('DataImportFromDate')]",
+        "DataImportSetting:DataImportToDate": "[parameters('DataImportToDate')]",
+        "DataImportSetting:DimensionCode": "[parameters('DataImportSettingsDimensionCode')]",
+        "DataImportSetting:DimensionValues": "[parameters('DataImportSettingsDimensionValues')]",
+        "DataImportSetting:NavApiBaseUrl": "[parameters('NavApiBaseUrl')]",
+        "DataImportSetting:NavAPICompaniesSettings:0:CompanyName": "[parameters('DataImportSettingNavAPICompaniesSettings0CompanyName')]",
+        "DataImportSetting:NavAPICompaniesSettings:0:IncludeDimensionQuery": "[parameters('DataImportSettingNavAPICompaniesSettings0IncludeDimensionQuery')]",
+        "DataImportSetting:NavAPICompaniesSettings:1:CompanyName": "[parameters('DataImportSettingNavAPICompaniesSettings1CompanyName')]",
+        "DataImportSetting:NavAPICompaniesSettings:1:IncludeDimensionQuery": "[parameters('DataImportSettingNavAPICompaniesSettings1IncludeDimensionQuery')]",
+        "DataImportSetting:NavApiSubscriptionKey": "[concat('@Microsoft.KeyVault(SecretUri=', reference(resourceId('Microsoft.KeyVault/vaults/secrets', parameters('sharedKeyVaultName'),'NavApiSubscriptionKey'),'2018-02-14').secretUriWithVersion, ')')]",
+        "DataImportSetting:NavApiVersionNumber": "[parameters('NavApiVersionNumber')]",
+        "DataImportSetting:RetryCounter": "[parameters('retryCounter')]",
+        "DataImportSetting:RetryGapDurationMilliseconds": "[parameters('retryGapDurationMilliseconds')]",
+        "DataImportSetting:RunAsOneTimeJobWithConfigDates": "[parameters('RunAsOneTimeJobWithConfigDates')]",
+        "DataImportSetting:UseFinanceAPI": "[parameters('useFinanceAPI')]",
+        "Environment": "[parameters('environmentName')]",
+        "FUNCTIONS_EXTENSION_VERSION": "[parameters('FUNCTIONS_EXTENSION_VERSION')]",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+        "timerInterval": "[parameters('timerInterval')]",
+        "WEBSITE_TIME_ZONE": "GMT Standard Time"
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "name": "Deploy_Dataimport_SQL_database",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('deploymentUrlBase'),'sql-database.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "environmentTag": {
+            "value": "[parameters('environmentTag')]"
+          },
+          "parentBusinessTag": {
+            "value": "[parameters('parentBusinessTag')]"
+          },
+          "portfolioTag": {
+            "value": "[parameters('portfolioTag')]"
+          },
+          "productTag": {
+            "value": "[parameters('productTag')]"
+          },
+          "serviceLineTag": {
+            "value": "[parameters('serviceLineTag')]"
+          },
+          "databaseName": {
+            "value": "[variables('dataImportDatabaseName')]"
+          },
+          "sqlServerName": {
+            "value": "[parameters('sharedSqlServerName')]"
+          },
+          "databaseSkuName": {
+            "value": "[parameters('dataImportDatabaseSkuName')]"
+          },
+          "databaseTier": {
+            "value": "[parameters('dataImportDatabaseTier')]"
+          },
+          "logAnalyticsSubscriptionId": {
+            "value": "[parameters('sharedLogAnalyticsSubscriptionId')]"
+          },
+          "logAnalyticsResourceGroup": {
+            "value": "[parameters('sharedLogAnalyticsResourceGroup')]"
+          },
+          "logAnalyticsWorkspaceName": {
+            "value": "[parameters('sharedLogAnalyticsWorkspaceName')]"
+          }
+        }
+      },
+      "resourceGroup": "[parameters('sharedResourceGroup')]"
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "Deploy_FunctionApp_KeyVaultPolicy",
+      "type": "Microsoft.Resources/deployments",
+      "dependsOn": [
+        "DataImport_Function_App_Deployment"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(variables('deploymentUrlBase'),'keyvault-accesspolicies.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "keyVaultName": {
+            "value": "[variables('keyVaultName')]"
+          },
+          "accessPolicies": {
+            "value": [
+              {
+                "tenantId": "[subscription().tenantId]",
+                "objectId": "[reference(concat('Microsoft.Web/sites/', variables('dataImportFunctionAppName')), '2018-02-01', 'Full').identity.principalId]",
+                "permissions": {
+                  "secrets": [
+                    "list",
+                    "get"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

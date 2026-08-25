@@ -1,0 +1,12 @@
+{
+    "Payments": [
+        {
+            "PaymentIdentifier": "3977359",
+            "VendorIdentifier": "P0019015",
+            "UKPRN": "12345678",
+            "PaymentDate": "2018-10-24",
+            "PaymentTotal": "64089",
+            "PaymentMethod": "BACS"
+        }
+    ]
+}

@@ -1,0 +1,163 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - "*"
+
+pr: none
+
+pool:
+  vmImage: 'windows-latest'
+
+name: $(Build.BuildId)
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  # .NET SDK version number
+  dotnetVersion: '8.0'
+  # Path of project to be published
+  publishProjectPath: 'ViewYourPayments.DataImport/ViewYourPayments.DataImportFunction/ViewYourPayments.DataImportFunction.csproj'
+
+stages:
+# Stage 1 - Audit stage: This stage checks project dependencies for security vulnerabilities
+- stage: Audit
+  displayName: 'Run audit activities'
+  condition: always()
+  jobs:
+  # Job 1 - Audit: This job checks project dependencies for security vulnerabilities using default dotnet command 
+  - job: Audit
+    displayName: 'Audit project dependencies for security vulnerabilities'
+    steps:
+    # Step 1 - Set up .NET SDK
+    - task: UseDotNet@2
+      displayName: 'Set up .NET SDK (version $(dotnetVersion))'
+      inputs:
+        packageType: 'sdk'
+        version: '$(dotnetVersion).x'
+    # Step 2 - Acquires a specific version of NuGet from the internet or the tools cache and adds it to the PATH. Use this task to change the version of NuGet used in the NuGet tasks.
+    - task: NuGetToolInstaller@1
+      displayName: 'Acquires a specific version of NuGet from the internet or the tools cache and adds it to the PATH.'
+      inputs:
+        versionSpec: '6.1'
+    # Step 3 - Restores the NuGet packages to the solution
+    - task: NuGetCommand@2
+      displayName: 'Restore the NuGet packages to the solution'
+      inputs:
+        command: 'restore'
+        restoreSolution: '$(solution)'
+    # Step 4 - Check for security vulnerabilities within project dependencies
+    - task: Bash@3
+      displayName: 'Scan for vulnerable NuGet packages'
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Run dotnet command to check for vulnerable packages, including transitive dependencies
+          dotnet list package --vulnerable --include-transitive 2>&1 | tee build.log
+          echo "Analyse dotnet list package command log output..."
+          if grep -q -i "critical\|high" build.log; then
+              echo "Must fix security vulnerabilities found on the log output."
+              exit 1      # Fails the job if critical or high vulnerabilities are found
+          else
+              echo "No critical or high severity vulnerabilities found."
+              exit 0      # Passes the job if no critical/high vulnerabilities are found
+          fi
+  
+# Stage 2 - Test stage: This stage runs the project unit tests
+- stage: Test  
+  displayName: 'Run unit tests'
+  dependsOn: Audit
+  condition: succeeded()
+  jobs:
+  # Job 1 - Unit: Runs unit tests.
+  - job: Unit
+    displayName: 'Run unit tests'
+    dependsOn: []
+    steps:
+    # Step 1 - Set up .NET SDK
+    - task: UseDotNet@2
+      displayName: 'Set up .NET SDK (version $(dotnetVersion))'
+      inputs:
+        packageType: 'sdk'
+        version: '$(dotnetVersion).x'
+    # Step 2 - Acquires a specific version of NuGet from the internet or the tools cache and adds it to the PATH. Use this task to change the version of NuGet used in the NuGet tasks.
+    - task: NuGetToolInstaller@1
+      displayName: 'Acquires a specific version of NuGet from the internet or the tools cache and adds it to the PATH.'
+      inputs:
+        versionSpec: '6.1'
+    # Step 3 - Restores the NuGet packages to the solution
+    - task: NuGetCommand@2
+      displayName: 'Restore the NuGet packages to the solution'
+      inputs:
+        command: 'restore'
+        restoreSolution: '$(solution)'
+    # Step 4 - Build the project
+    - task: VSBuild@1
+      displayName: 'Build solution'
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
+        platform: '$(BuildPlatform)'
+        configuration: '$(BuildConfiguration)'
+    # Step 5 - Run unit tests and filter by category
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\bin\Release\netcoreapp3.1\*.Tests.dll
+        platform: '$(BuildPlatform)'
+        configuration: '$(BuildConfiguration)'
+        otherConsoleOptions: '/Framework:.NETCoreApp,Version=v3.1'
+        testFiltercriteria: TestCategory!=DB-Integration
+        codeCoverageEnabled: true
+
+# Stage 3 - Publish stage: This stage publishes the build artifact to be deployed in the release pipelines
+- stage: Publish
+  displayName: 'Publish build artifact'
+  dependsOn: Test
+  condition: succeeded()
+  jobs:
+  # Job 1 - Publish: This job publishes the build artifact from the project
+  - job: Publish
+    displayName: 'Publish build artifact'
+    steps:
+    # Step 1 - Set up .NET SDK
+    - task: UseDotNet@2
+      displayName: 'Set up .NET SDK (version $(dotnetVersion))'
+      inputs:
+        packageType: 'sdk'
+        version: '$(dotnetVersion).x'
+    # Step 2 - Acquires a specific version of NuGet from the internet or the tools cache and adds it to the PATH. Use this task to change the version of NuGet used in the NuGet tasks.
+    - task: NuGetToolInstaller@1
+      displayName: 'Acquires a specific version of NuGet from the internet or the tools cache and adds it to the PATH.'
+      inputs:
+        versionSpec: '6.1'
+    # Step 3 - Restores the NuGet packages to the solution
+    - task: NuGetCommand@2
+      displayName: 'Restore the NuGet packages to the solution'
+      inputs:
+        command: 'restore'
+        restoreSolution: '$(solution)'
+    # Step 4 - Build the project
+    - task: VSBuild@1
+      displayName: 'Build solution'
+      inputs:
+        solution: '$(solution)'
+        msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"'
+        platform: '$(BuildPlatform)'
+        configuration: '$(BuildConfiguration)'
+    # Step 5 - Publishes Artifact Function
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact Function'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+    # Step 6 - Publishes Pipeline Artifact
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish Pipeline Artifact'
+      inputs:
+        targetPath: '$(build.sourcesdirectory)/azure'
+        artifact: 'azure'
+        publishLocation: 'pipeline'

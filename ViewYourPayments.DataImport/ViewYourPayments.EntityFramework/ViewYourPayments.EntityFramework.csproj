@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20191202143255_AddInitialSchemaAndData.cs" />
+    <Compile Remove="Migrations\20191202143255_AddInitialSchemaAndData.Designer.cs" />
+    <Compile Remove="Migrations\20191202145130_AddTableSchemaAndData.cs" />
+    <Compile Remove="Migrations\20191202145130_AddTableSchemaAndData.Designer.cs" />
+    <Compile Remove="Migrations\20191202145525_AddInitialSchemaAndData.cs" />
+    <Compile Remove="Migrations\20191202145525_AddInitialSchemaAndData.Designer.cs" />
+    <Compile Remove="Migrations\20191202152722_AddInitialDbSchemaAndData.cs" />
+    <Compile Remove="Migrations\20191202152722_AddInitialDbSchemaAndData.Designer.cs" />
+    <Compile Remove="Migrations\20191202153357_AddInitialSchema.cs" />
+    <Compile Remove="Migrations\20191202153357_AddInitialSchema.Designer.cs" />
+    <Compile Remove="Migrations\20191202153451_AddBudgetGroupSeedData.cs" />
+    <Compile Remove="Migrations\20191202153451_AddBudgetGroupSeedData.Designer.cs" />
+    <Compile Remove="Migrations\20191202154114_AddBudgetGroupSeedData.cs" />
+    <Compile Remove="Migrations\20191202154114_AddBudgetGroupSeedData.Designer.cs" />
+    <Compile Remove="Migrations\20191202154341_AddBudgetGroupSeedData.cs" />
+    <Compile Remove="Migrations\20191202154341_AddBudgetGroupSeedData.Designer.cs" />
+    <Compile Remove="Migrations\20191202154408_AddInsertPaymentSummaryProc.cs" />
+    <Compile Remove="Migrations\20191202154408_AddInsertPaymentSummaryProc.Designer.cs" />
+    <Compile Remove="Migrations\20191202154733_AddInsertPaymentDetailProc.cs" />
+    <Compile Remove="Migrations\20191202154733_AddInsertPaymentDetailProc.Designer.cs" />
+    <Compile Remove="Migrations\20191202160030_AddInitialSchemaAndData.cs" />
+    <Compile Remove="Migrations\20191202160030_AddInitialSchemaAndData.Designer.cs" />
+    <Compile Remove="Migrations\20191202160125_AddInsertPaymentSummaryProc.cs" />
+    <Compile Remove="Migrations\20191202160125_AddInsertPaymentSummaryProc.Designer.cs" />
+    <Compile Remove="Migrations\20191202160215_AddInsertPaymentLineProc.cs" />
+    <Compile Remove="Migrations\20191202160215_AddInsertPaymentLineProc.Designer.cs" />
+    <Compile Remove="Migrations\20191202161029_AddInsertPaymentAuditProc.cs" />
+    <Compile Remove="Migrations\20191202161029_AddInsertPaymentAuditProc.Designer.cs" />
+    <Compile Remove="Migrations\20191202165020_RemovePaymentLineColumn.cs" />
+    <Compile Remove="Migrations\20191202165020_RemovePaymentLineColumn.Designer.cs" />
+    <Compile Remove="Migrations\20191202165126_AddMultipleDataImportProc.cs" />
+    <Compile Remove="Migrations\20191202165126_AddMultipleDataImportProc.Designer.cs" />
+    <Compile Remove="Migrations\20191203092147_AddInitialDbSchemaAndData.cs" />
+    <Compile Remove="Migrations\20191203092147_AddInitialDbSchemaAndData.Designer.cs" />
+    <Compile Remove="Migrations\20191203093211_AddInititalSchemaAndData.cs" />
+    <Compile Remove="Migrations\20191203093211_AddInititalSchemaAndData.Designer.cs" />
+    <Compile Remove="Migrations\20191203093318_AddInitialTableSchemaAndDb.cs" />
+    <Compile Remove="Migrations\20191203093318_AddInitialTableSchemaAndDb.Designer.cs" />
+    <Compile Remove="Migrations\20191203093803_AddInitialTableSchemaAndData.cs" />
+    <Compile Remove="Migrations\20191203093803_AddInitialTableSchemaAndData.Designer.cs" />
+    <Compile Remove="Migrations\20191203093857_AddMultipleStoreProc.cs" />
+    <Compile Remove="Migrations\20191203093857_AddMultipleStoreProc.Designer.cs" />
+    <Compile Remove="Migrations\20191220113811_AddDefalutValueForDateCreatedAndOtherChanges.cs" />
+    <Compile Remove="Migrations\20191220113811_AddDefalutValueForDateCreatedAndOtherChanges.Designer.cs" />
+    <Compile Remove="Migrations\20191220122213_AddDefaultDateForCreateDateAndOtherChanges.cs" />
+    <Compile Remove="Migrations\20191220122213_AddDefaultDateForCreateDateAndOtherChanges.Designer.cs" />
+    <Compile Remove="Migrations\20191220155739_AddDefaultDateTimeValueAndOtherChanges.cs" />
+    <Compile Remove="Migrations\20191220155739_AddDefaultDateTimeValueAndOtherChanges.Designer.cs" />
+    <Compile Remove="Migrations\20191220162327_AddDefalutDateTimeForCreateDateAndOtherChanges.cs" />
+    <Compile Remove="Migrations\20191220162327_AddDefalutDateTimeForCreateDateAndOtherChanges.Designer.cs" />
+    <Compile Remove="Migrations\20200106112810_AddInitialTableDesignAndData.cs" />
+    <Compile Remove="Migrations\20200106112810_AddInitialTableDesignAndData.Designer.cs" />
+    <Compile Remove="Migrations\20200106113312_AddInitialDbSchemaAndData.cs" />
+    <Compile Remove="Migrations\20200106113312_AddInitialDbSchemaAndData.Designer.cs" />
+    <Compile Remove="Migrations\20200106114334_AddInitialDbStructureAndData.cs" />
+    <Compile Remove="Migrations\20200106114334_AddInitialDbStructureAndData.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.5.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.19" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.19">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.19" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.19">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ViewYourPayments.Core\ViewYourPayments.Core.csproj" />
+  </ItemGroup>
+
+</Project>
