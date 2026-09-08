@@ -1,10 +1,8 @@
-using AutoMapper;
 using Microsoft.Azure.Functions.Worker.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ViewYourPayments.DataImport.Domain;
-using ViewYourPayments.DataImport.Domain.MapingProfiles;
 using IConfigurationProvider = Microsoft.Extensions.Configuration.IConfigurationProvider;
 
 var builder = FunctionsApplication.CreateBuilder(args);
@@ -33,15 +31,7 @@ providers.AddRange(config.Providers);
 
 builder.Services.AddSingleton<IConfiguration>(new ConfigurationRoot(providers));
 
-var mapperConfig = new MapperConfiguration(mc =>
-{
-    mc.AddProfile(new MappingProfilesRegistration());
-});
-
-IMapper mapper = mapperConfig.CreateMapper();
-
 builder.Services
-    .AddSingleton(mapper)
     .AddSingleton(new DataImportSetting());
 
 builder.Build().Run();

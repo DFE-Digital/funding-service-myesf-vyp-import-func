@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using ViewYourPayments.Core.Enums.Logging;
@@ -17,7 +16,7 @@ namespace ViewYourPayments.DataImportFunction.Tests.Helpers
     {
         private new readonly string _connectionString;
 
-        public MockViewYourPaymentsDbClient(IDataService dataService, IApplicationLogger logger, string connectionString, IMapper mapper) : base(dataService, logger, connectionString, mapper)
+        public MockViewYourPaymentsDbClient(IDataService dataService, IApplicationLogger logger, string connectionString) : base(dataService, logger, connectionString)
         {
             _connectionString = connectionString;
         }

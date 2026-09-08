@@ -30,6 +30,5 @@ namespace ViewYourPayments.Core.Models.Payments
         /// List of payment lines associated with payment summary.
         /// </summary>
         public IList<PaymentSummary> PaymentSummaryList { get; set; }
-        public IList<PaymentSummaryStaging> PaymentSummaryStagingList { get; set; }
     }
 }
