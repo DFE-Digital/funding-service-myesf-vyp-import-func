@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using ViewYourPayments.Core.Interfaces;
@@ -22,16 +21,13 @@ namespace ViewYourPayments.DataImport.Domain.DomainClients
         /// <param name="dataService">Data Service to obtain db connection from.</param>
         /// <param name="logger">Logger that will write to Application Insights.</param>
         /// <param name="connectionString">Database connection string.</param>
-        public ViewYourPaymentsDbClient(IDataService dataService, IApplicationLogger logger, string connectionString, IMapper mapper) : base(logger)
+        public ViewYourPaymentsDbClient(IDataService dataService, IApplicationLogger logger, string connectionString) : base(logger)
         {
             _dataService = dataService;
             _logger = logger;
             _connectionString = connectionString;
             _dbContext = new ViewYourPaymentsDbContext(_connectionString);
-            _mapper = mapper;
         }
-
-        protected readonly IMapper _mapper;
 
         /// <summary>
         /// Data Service to obtain db connection from.
@@ -65,7 +61,6 @@ namespace ViewYourPayments.DataImport.Domain.DomainClients
         {
             LogTrace($"Writing {paymentSummaryList.Count()} remittances to database.");
             var savedDetails = 0;
-            var savedStagingDetails = 0;
             var invalidUkprns = new List<string>();
             var duplicatePaymentIdentifiers = new List<int>();
             var budgetGroups = _dbContext.BudgetGroups.ToList();
@@ -74,14 +69,12 @@ namespace ViewYourPayments.DataImport.Domain.DomainClients
             {
                 dataImportHistory.TotalRecords = paymentSummaryList.Sum(x => x.PaymentLine.Count);
                 dataImportHistory.PaymentSummaryList = new List<PaymentSummary>();
-                dataImportHistory.PaymentSummaryStagingList = new List<PaymentSummaryStaging>();
 
                 foreach (var paymentSummary in paymentSummaryList)
                 {
                     if (paymentSummary.Ukprn?.Length < 8)
                     {
                         invalidUkprns.Add(paymentSummary.Ukprn);
-                        this.InsertToStaging(paymentSummary, budgetGroups, dataImportHistory, companySettings, BatchExecutionDate.GetValueOrDefault());
                         continue;
                     }
                     var matchedPaymentSummaries = _dbContext.PaymentSummaries.Where(x => x.PaymentIdentifier == paymentSummary.PaymentIdentifier).Select(x => x.Id).ToArray();
@@ -94,7 +87,6 @@ namespace ViewYourPayments.DataImport.Domain.DomainClients
                         if (matchedPaymentLines.Any())
                         {
                             duplicatePaymentIdentifiers.Add(paymentSummary.PaymentIdentifier);
-                            this.InsertToStaging(paymentSummary, budgetGroups, dataImportHistory, companySettings, BatchExecutionDate.GetValueOrDefault());
                             continue;
                         }
                     }
@@ -112,11 +104,10 @@ namespace ViewYourPayments.DataImport.Domain.DomainClients
                 _dbContext.DataImportHistories.Add(dataImportHistory);
                 _dbContext.SaveChanges();
                 savedDetails = dataImportHistory.PaymentSummaryList.Count;
-                savedStagingDetails = dataImportHistory.PaymentSummaryStagingList.Count;
 
                 var message = string.Empty;
                 message += $"Processed {paymentSummaryList.Count()} remittances. {savedDetails} " +
-                           $"remittances committed to database.{savedStagingDetails} remittances committed to staging tables.  {invalidUkprns.Count} invalid Ukpns " +
+                           $"remittances committed to database.  {invalidUkprns.Count} invalid Ukpns " +
                             $"{duplicatePaymentIdentifiers.Count}  duplicate payment Identifiers or summaries found in data import history- {dataImportHistory.Id}.";
 
                 LogTraceAndAudit(message);
@@ -168,21 +159,6 @@ namespace ViewYourPayments.DataImport.Domain.DomainClients
         public void InsertAudit(params DataImportAudit[] audits)
         {
             InsertAudit(audits.ToList());
-        }
-
-        private void InsertToStaging(PaymentSummary paymentSummary, List<BudgetGroup> budgetGroups, DataImportHistory dataImportHistory, NavApiCompanySettings companySettings, DateTime BatchExecutionDate)
-        {
-            paymentSummary.CreatedOn = BatchExecutionDate;
-
-            foreach (var paymentLine in paymentSummary.PaymentLine)
-            {
-                var contractCode = paymentLine.Contract ?? string.Empty;
-                paymentLine.BudgetGroup = budgetGroups.FirstOrDefault(x => contractCode.Contains($"{x.ContractCodePrefix}-"))?.BudgetGroupDescription;
-                paymentLine.BudgetGroup = paymentLine.BudgetGroup ?? "Other";
-                paymentLine.CompanyName = companySettings.CompanyName;
-                paymentLine.CreatedOn = BatchExecutionDate;
-            }
-            dataImportHistory.PaymentSummaryStagingList.Add(this._mapper.Map<PaymentSummaryStaging>(paymentSummary));
         }
     }
 }

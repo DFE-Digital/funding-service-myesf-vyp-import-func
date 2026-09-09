@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Azure.Functions.Worker;
@@ -17,12 +16,10 @@ namespace ViewYourPayments.DataImportFunction
     {
 
         public readonly IConfiguration _configuration;
-        public readonly IMapper _mapper;
 
-        public DataImportFunction(IConfiguration configuration, IMapper mapper)
+        public DataImportFunction(IConfiguration configuration)
         {
             _configuration = configuration;
-            _mapper = mapper;
         }
 
         [Function("RetrievePaymentsFromNavApi")]
@@ -110,7 +107,7 @@ namespace ViewYourPayments.DataImportFunction
 
             var api = new ApimApi(new HttpService(), logger, dataImportSetting.NavApiBaseUrl, dataImportSetting.NavApiVersionNumber, dataImportSetting.NavApiSubscriptionKey);
             var deserializer = new DeSerializeApimJson(logger);
-            var viewYourPaymentsDbClient = new ViewYourPaymentsDbClient(new DataService(), logger, connectionString, _mapper);
+            var viewYourPaymentsDbClient = new ViewYourPaymentsDbClient(new DataService(), logger, connectionString);
 
             DataImportService dataImportService = new DataImportService(api, deserializer, viewYourPaymentsDbClient, logger, dataImportSetting);
 
