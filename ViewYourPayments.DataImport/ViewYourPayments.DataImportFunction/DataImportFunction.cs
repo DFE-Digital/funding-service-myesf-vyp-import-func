@@ -101,7 +101,7 @@ namespace ViewYourPayments.DataImportFunction
         /// <param name="dataImportSetting">application settings.</param>
         private void CallRemittanceEndPointAndPersistNewRemittances(DataImportSetting dataImportSetting, string connectionString, IApplicationLogger logger)
         {
-            var message = "Start application to pull data from the APIM remittance Api.";
+            var message = "DataImportFunction: Start application to pull data from the APIM remittance Api.";
 
             logger.LogTrace(message, BusinessArea.DataImport, LoggingSeverity.Information);
 
@@ -113,7 +113,7 @@ namespace ViewYourPayments.DataImportFunction
 
             dataImportService.CallApimAndInsertNewRemittances();
 
-            message = "Application to pull data from the APIM remittance Api finished.";
+            message = "DataImportFunction: Application to pull data from the APIM remittance Api finished.";
             logger.LogTrace(message, BusinessArea.DataImport, LoggingSeverity.Information);
         }
 
