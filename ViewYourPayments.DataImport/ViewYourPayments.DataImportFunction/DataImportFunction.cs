@@ -42,7 +42,7 @@ namespace ViewYourPayments.DataImportFunction
 
             var logger = GetLogger(environment, insightInstrumentKey);
 
-            logger.LogInfo($"Azure Function run Started at V3.0: {DateTime.Now}");
+            logger.LogInfo($"Azure Function run Started at V4.0: {DateTime.Now}");
 
             if (!EnsureParametersExist(dataImportSetting, connectionString, logger))
             {
