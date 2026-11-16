@@ -16,7 +16,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   # .NET SDK version number
-  dotnetVersion: '8.0'
+  dotnetVersion: '10.0'
   # Path of project to be published
   publishProjectPath: 'ViewYourPayments.DataImport/ViewYourPayments.DataImportFunction/ViewYourPayments.DataImportFunction.csproj'
 
