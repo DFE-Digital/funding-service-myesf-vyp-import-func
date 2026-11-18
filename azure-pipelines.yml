@@ -7,7 +7,7 @@ trigger:
 pr: none
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'windows-2025-vs2026'
 
 name: $(Build.BuildId)
 
@@ -16,7 +16,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   # .NET SDK version number
-  dotnetVersion: '8.0'
+  dotnetVersion: '10.0'
   # Path of project to be published
   publishProjectPath: 'ViewYourPayments.DataImport/ViewYourPayments.DataImportFunction/ViewYourPayments.DataImportFunction.csproj'
 
@@ -101,14 +101,14 @@ stages:
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
     # Step 5 - Run unit tests and filter by category
-    - task: VSTest@2
+    - task: VSTest@3
       inputs:
         testSelector: 'testAssemblies'
-        testAssemblyVer2: |
-          **\bin\Release\netcoreapp3.1\*.Tests.dll
+        vsTestVersion: '18.0'
+        testAssemblyVer2: '**\bin\Release\net$(dotNetVersion)\*.Tests.dll'
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
-        otherConsoleOptions: '/Framework:.NETCoreApp,Version=v3.1'
+        otherConsoleOptions: '/Framework:.NETCoreApp,Version=v$(dotNetVersion)'
         testFiltercriteria: TestCategory!=DB-Integration
         codeCoverageEnabled: true
 

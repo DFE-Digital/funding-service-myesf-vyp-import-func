@@ -9,7 +9,7 @@ The Manage Your Education and Skills Funding View Your Payments Data Import Func
 
 ## About this project
 
-This project is a .Net 8 time triggered Azure Function project utilizing an Azure Function App for deployment.
+This project is a .Net 10 time triggered Azure Function project utilizing an Azure Function App for deployment.
 
 **Note:** The project is currently being updated to be containerised via Docker where the deployment method and target will change, this document will be updated when these changes have been finalised.
 
