@@ -7,7 +7,7 @@ trigger:
 pr: none
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'windows-2025-vs2026'
 
 name: $(Build.BuildId)
 
@@ -105,10 +105,10 @@ stages:
       inputs:
         testSelector: 'testAssemblies'
         testAssemblyVer2: |
-          **\bin\Release\netcoreapp3.1\*.Tests.dll
+        **\bin\Release\net$(dotNetVersion)\*.Tests.dll
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
-        otherConsoleOptions: '/Framework:.NETCoreApp,Version=v3.1'
+        otherConsoleOptions: '/Framework:.NETCoreApp,Version=v$(dotNetVersion)'
         testFiltercriteria: TestCategory!=DB-Integration
         codeCoverageEnabled: true
 
