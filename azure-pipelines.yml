@@ -104,8 +104,7 @@ stages:
     - task: VSTest@2
       inputs:
         testSelector: 'testAssemblies'
-        testAssemblyVer2: |
-        **\bin\Release\net$(dotNetVersion)\*.Tests.dll
+        testAssemblyVer2: '**\bin\Release\net$(dotNetVersion)\*.Tests.dll'
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
         otherConsoleOptions: '/Framework:.NETCoreApp,Version=v$(dotNetVersion)'
