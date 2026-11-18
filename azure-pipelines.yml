@@ -7,7 +7,7 @@ trigger:
 pr: none
 
 pool:
-  vmImage: 'Windows-2025'
+  vmImage: 'windows-2025-vs2026'
 
 name: $(Build.BuildId)
 
@@ -101,9 +101,10 @@ stages:
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
     # Step 5 - Run unit tests and filter by category
-    - task: VSTest@2
+    - task: VSTest@3
       inputs:
         testSelector: 'testAssemblies'
+        vsTestVersion: '18.0'
         testAssemblyVer2: '**\bin\Release\net$(dotNetVersion)\*.Tests.dll'
         platform: '$(BuildPlatform)'
         configuration: '$(BuildConfiguration)'
